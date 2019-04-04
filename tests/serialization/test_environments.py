@@ -110,8 +110,8 @@ def test_environment_schema_with_docker_environment():
 #################################
 
 
-def test_serialize_docker_on_kubernetes_environment():
-    env = environments.kubernetes.DockerOnKubernetesEnvironment(
+def test_serialize_docker_on_k8s_environment():
+    env = environments.k8s.DockerOnKubernetesEnvironment(
         base_image="a",
         python_dependencies=["b", "c"],
         registry_url="f",
@@ -126,8 +126,8 @@ def test_serialize_docker_on_kubernetes_environment():
     assert serialized["__version__"] == prefect.__version__
 
 
-def test_serialize_docker_on_kubernetes_environment_no_base_image():
-    env = environments.kubernetes.DockerOnKubernetesEnvironment(
+def test_serialize_docker_on_k8s_environment_no_base_image():
+    env = environments.k8s.DockerOnKubernetesEnvironment(
         python_dependencies=["b", "c"], registry_url="f", image_name="g", image_tag="h"
     )
     serialized = DockerOnKubernetesEnvironmentSchema().dump(env)
@@ -138,19 +138,19 @@ def test_serialize_docker_on_kubernetes_environment_no_base_image():
     assert serialized["__version__"] == prefect.__version__
 
 
-def test_deserialize_empty_docker_on_kubernetes_environment():
+def test_deserialize_empty_docker_on_k8s_environment():
     schema = DockerOnKubernetesEnvironmentSchema()
     with pytest.raises(marshmallow.ValidationError):
         schema.load(schema.dump({}))
 
 
-def test_deserialize_minimal_docker_on_kubernetes_environment():
+def test_deserialize_minimal_docker_on_k8s_environment():
     schema = DockerOnKubernetesEnvironmentSchema()
     assert schema.load(schema.dump({"base_image": "a", "registry_url": "b"}))
 
 
-def test_deserialize_docker_on_kubernetes_environment():
-    env = environments.kubernetes.DockerOnKubernetesEnvironment(
+def test_deserialize_docker_on_k8s_environment():
+    env = environments.k8s.DockerOnKubernetesEnvironment(
         base_image="a", python_dependencies=["b", "c"], registry_url="f"
     )
     serialized = DockerOnKubernetesEnvironmentSchema().dump(env)
@@ -160,14 +160,14 @@ def test_deserialize_docker_on_kubernetes_environment():
     assert deserialized.registry_url == env.registry_url
 
 
-def test_environment_schema_with_docker_on_kubernetes_environment():
-    env = environments.kubernetes.DockerOnKubernetesEnvironment(
+def test_environment_schema_with_docker_on_k8s_environment():
+    env = environments.k8s.DockerOnKubernetesEnvironment(
         base_image="a", python_dependencies=["b", "c"], registry_url="f"
     )
     serialized = DockerOnKubernetesEnvironmentSchema().dump(env)
     deserialized = DockerOnKubernetesEnvironmentSchema().load(serialized)
     assert isinstance(
-        deserialized, environments.kubernetes.DockerOnKubernetesEnvironment
+        deserialized, environments.k8s.DockerOnKubernetesEnvironment
     )
     assert deserialized.registry_url == env.registry_url
     assert deserialized.base_image == env.base_image
@@ -178,8 +178,8 @@ def test_environment_schema_with_docker_on_kubernetes_environment():
 #################################
 
 
-def test_serialize_dask_on_kubernetes_environment():
-    env = environments.kubernetes.DaskOnKubernetesEnvironment(
+def test_serialize_dask_on_k8s_environment():
+    env = environments.k8s.DaskOnKubernetesEnvironment(
         base_image="a",
         python_dependencies=["b", "c"],
         registry_url="f",
@@ -196,8 +196,8 @@ def test_serialize_dask_on_kubernetes_environment():
     assert serialized["max_workers"] == 5
 
 
-def test_serialize_dask_on_kubernetes_environment_no_base_image():
-    env = environments.kubernetes.DaskOnKubernetesEnvironment(
+def test_serialize_dask_on_k8s_environment_no_base_image():
+    env = environments.k8s.DaskOnKubernetesEnvironment(
         python_dependencies=["b", "c"],
         registry_url="f",
         image_name="g",
@@ -213,8 +213,8 @@ def test_serialize_dask_on_kubernetes_environment_no_base_image():
     assert serialized["max_workers"] == 5
 
 
-def test_serialize_dask_on_kubernetes_environment_defaults():
-    env = environments.kubernetes.DaskOnKubernetesEnvironment()
+def test_serialize_dask_on_k8s_environment_defaults():
+    env = environments.k8s.DaskOnKubernetesEnvironment()
     serialized = DaskOnKubernetesEnvironmentSchema().dump(env)
     assert serialized["base_image"] == "python:3.6"
     assert serialized["registry_url"] == None
@@ -224,19 +224,19 @@ def test_serialize_dask_on_kubernetes_environment_defaults():
     assert serialized["max_workers"] == 1
 
 
-def test_deserialize_empty_dask_on_kubernetes_environment():
+def test_deserialize_empty_dask_on_k8s_environment():
     schema = DaskOnKubernetesEnvironmentSchema()
     with pytest.raises(marshmallow.ValidationError):
         schema.load(schema.dump({}))
 
 
-def test_deserialize_minimal_dask_on_kubernetes_environment():
+def test_deserialize_minimal_dask_on_k8s_environment():
     schema = DaskOnKubernetesEnvironmentSchema()
     assert schema.load(schema.dump({"base_image": "a", "registry_url": "b"}))
 
 
-def test_deserialize_dask_on_kubernetes_environment():
-    env = environments.kubernetes.DaskOnKubernetesEnvironment(
+def test_deserialize_dask_on_k8s_environment():
+    env = environments.k8s.DaskOnKubernetesEnvironment(
         base_image="a", python_dependencies=["b", "c"], registry_url="f"
     )
     serialized = DaskOnKubernetesEnvironmentSchema().dump(env)
@@ -246,12 +246,12 @@ def test_deserialize_dask_on_kubernetes_environment():
     assert deserialized.registry_url == env.registry_url
 
 
-def test_environment_schema_with_dask_on_kubernetes_environment():
-    env = environments.kubernetes.DaskOnKubernetesEnvironment(
+def test_environment_schema_with_dask_on_k8s_environment():
+    env = environments.k8s.DaskOnKubernetesEnvironment(
         base_image="a", python_dependencies=["b", "c"], registry_url="f"
     )
     serialized = DaskOnKubernetesEnvironmentSchema().dump(env)
     deserialized = DaskOnKubernetesEnvironmentSchema().load(serialized)
-    assert isinstance(deserialized, environments.kubernetes.DaskOnKubernetesEnvironment)
+    assert isinstance(deserialized, environments.k8s.DaskOnKubernetesEnvironment)
     assert deserialized.registry_url == env.registry_url
     assert deserialized.base_image == env.base_image

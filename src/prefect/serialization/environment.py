@@ -14,7 +14,7 @@ from prefect.utilities.serialization import (
 )
 
 if TYPE_CHECKING:
-    import prefect.environments.kubernetes
+    import prefect.environments.k8s
 
 
 class LocalEnvironmentSchema(ObjectSchema):
@@ -40,12 +40,12 @@ class DockerEnvironmentSchema(ObjectSchema):
 
 class DockerOnKubernetesEnvironmentSchema(DockerEnvironmentSchema):
     class Meta:
-        object_class = prefect.environments.kubernetes.DockerOnKubernetesEnvironment
+        object_class = prefect.environments.k8s.DockerOnKubernetesEnvironment
 
 
 class DaskOnKubernetesEnvironmentSchema(DockerEnvironmentSchema):
     class Meta:
-        object_class = prefect.environments.kubernetes.DaskOnKubernetesEnvironment
+        object_class = prefect.environments.k8s.DaskOnKubernetesEnvironment
 
     max_workers = fields.Integer(allow_none=True)
 
